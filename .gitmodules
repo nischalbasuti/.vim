@@ -1,0 +1,135 @@
+[submodule "vim-surround"]
+	path = vim-surround
+	url = ./bundle/vim-surround/
+[submodule "ale"]
+	path = ale
+	url = ./bundle/ale
+[submodule "auto-pairs"]
+	path = auto-pairs
+	url = ./bundle/auto-pairs
+[submodule "base16-vim"]
+	path = base16-vim
+	url = ./bundle/base16-vim
+[submodule "closetag.vim"]
+	path = closetag.vim
+	url = ./bundle/closetag.vim
+[submodule "gruvbox"]
+	path = gruvbox
+	url = ./bundle/gruvbox
+[submodule "lightline.vim"]
+	path = lightline.vim
+	url = ./bundle/lightline.vim
+[submodule "nerdtree"]
+	path = nerdtree
+	url = ./bundle/nerdtree
+[submodule "python-syntax"]
+	path = python-syntax
+	url = ./bundle/python-syntax
+[submodule "seoul256.vim"]
+	path = seoul256.vim
+	url = ./bundle/seoul256.vim
+[submodule "tlib_vim"]
+	path = tlib_vim
+	url = ./bundle/tlib_vim
+[submodule "typescript-vim"]
+	path = typescript-vim
+	url = ./bundle/typescript-vim
+[submodule "ultisnips"]
+	path = ultisnips
+	url = ./bundle/ultisnips
+[submodule "vim-addon-mw-utils"]
+	path = vim-addon-mw-utils
+	url = ./bundle/vim-addon-mw-utils
+[submodule "vim-commentary"]
+	path = vim-commentary
+	url = ./bundle/vim-commentary
+[submodule "vim-css-color"]
+	path = vim-css-color
+	url = ./bundle/vim-css-color
+[submodule "vim-fugitive"]
+	path = vim-fugitive
+	url = ./bundle/vim-fugitive
+[submodule "vim-gitgutter"]
+	path = vim-gitgutter
+	url = ./bundle/vim-gitgutter
+[submodule "vim-gotham"]
+	path = vim-gotham
+	url = ./bundle/vim-gotham
+[submodule "vim-javascript-syntax"]
+	path = vim-javascript-syntax
+	url = ./bundle/vim-javascript-syntax
+[submodule "vim-javascript-lib"]
+	path = vim-javascript-lib
+	url = ./bundle/vim-javascript-lib
+[submodule "vim-railscasts-theme"]
+	path = vim-railscasts-theme
+	url = ./bundle/vim-railscasts-theme
+[submodule "vim-snippets"]
+	path = vim-snippets
+	url = ./bundle/vim-snippets
+[submodule "bundle/auto-pairs"]
+	path = bundle/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "bundle/closetag.vim"]
+	path = bundle/closetag.vim
+	url = https://github.com/docunext/closetag.vim
+[submodule "bundle/gruvbox"]
+	path = bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule "bundle/lightline.vim"]
+	path = bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "bundle/python-syntax"]
+	path = bundle/python-syntax
+	url = https://github.com/hdima/python-syntax.git
+[submodule "bundle/seoul256.vim"]
+	path = bundle/seoul256.vim
+	url = https://github.com/junegunn/seoul256.vim.git
+[submodule "bundle/tlib_vim"]
+	path = bundle/tlib_vim
+	url = https://github.com/tomtom/tlib_vim.git
+[submodule "bundle/typescript-vim"]
+	path = bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "bundle/ultisnips"]
+	path = bundle/ultisnips
+	url = git://github.com/SirVer/ultisnips.git
+[submodule "bundle/vim-addon-mw-utils"]
+	path = bundle/vim-addon-mw-utils
+	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "bundle/vim-atom-dark"]
+	path = bundle/vim-atom-dark
+	url = https://github.com/gosukiwi/vim-atom-dark.git
+[submodule "bundle/vim-commentary"]
+	path = bundle/vim-commentary
+	url = https://github.com/tpope/vim-commentary
+[submodule "bundle/vim-css-color"]
+	path = bundle/vim-css-color
+	url = https://github.com/ap/vim-css-color.git
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-gitgutter"]
+	path = bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "bundle/vim-gotham"]
+	path = bundle/vim-gotham
+	url = https://github.com/whatyouhide/vim-gotham.git
+[submodule "bundle/vim-javascript-lib"]
+	path = bundle/vim-javascript-lib
+	url = https://github.com/crusoexia/vim-javascript-lib.git
+[submodule "bundle/vim-javascript-syntax"]
+	path = bundle/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
+[submodule "bundle/vim-railscasts-theme"]
+	path = bundle/vim-railscasts-theme
+	url = https://github.com/jpo/vim-railscasts-theme.git
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
