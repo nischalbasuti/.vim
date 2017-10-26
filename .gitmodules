@@ -133,6 +133,3 @@
 [submodule "bundle/vim-surround"]
 	path = bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "autoload/vim-pathogen"]
-	path = autoload/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
