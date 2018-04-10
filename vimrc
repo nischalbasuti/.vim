@@ -33,7 +33,8 @@ let g:indent_guides_guide_size=1
 " set theme
 colorscheme monokai                 " for some reason need to load this for other shit to work
 let g:seoul256_background = 233
-colo seoul256
+" colo seoul256
+:colorscheme space-vim-dark
 if has('gui_running')
     colorscheme atom-dark
 endif
@@ -152,7 +153,7 @@ noremap <F5> <Esc>:syntax sync fromstart<CR>
 
 " remap save
 nnoremap <C-u> <Esc>:up<CR> :echo 'saved' <CR>
-inoremap <C-u> <Esc>:up<CR> :echo 'saved' <CR>a
+inoremap <C-u> <Esc>:up<CR> :echo 'saved' <CR>
 
 " remap save and quit
 nnoremap <C-w> <Esc>:up<CR> <Esc> :q<CR> :echo 'save and quit' <CR>
@@ -168,6 +169,12 @@ let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
-let g:EclimCompletionMethod = 'omnifunc'
 let &titleold=getcwd()
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 0
+
+" nnoremap <F7> :Scratch<CR>
+nnoremap <F8> :Scratch!<CR>:0read !make build<CR><CR>
+nnoremap <F9> :Scratch!<CR>:0read !make run<CR><CR>
+let g:scratch_height=15
+let g:scratch_top=0

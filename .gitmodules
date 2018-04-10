@@ -70,6 +70,12 @@
 [submodule "bundle/YouCompleteMe"]
 	path = bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "bundle/scratch"]
+	path = bundle/scratch
+	url = https://github.com/mtth/scratch.vim.git
 [submodule "bundle/ale"]
 	path = bundle/ale
 	url = https://github.com/w0rp/ale.git
+[submodule "bundle/space-vim-dark"]
+	path = bundle/space-vim-dark
+	url = https://github.com/liuchengxu/space-vim-dark.git
