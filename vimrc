@@ -1,14 +1,15 @@
 execute pathogen#infect()
 
-"......preferences.......
+" Preferences...................................................................
 filetype plugin indent on
 syntax on
 runtime macros/matchit.vim          " use % to jump to matching tags
-set mouse=a                         " to prevent selecting line numbers with mouse
+set mouse=a                         " add mouse support
 set viminfo='51,<1000,s100,h        " increase maximum number of lines to yank
 set wrap linebreak nolist           " wrap whole words instead of characters
 set display+=lastline               " display long lines on same screen
-set smartcase                       " case sensitive if search expression includes a uppercase character
+set smartcase                       " case sensitive if search expression 
+                                    " includes an uppercase character
 set ignorecase                      " do case insensitive search
 set number                          " show line numbers
 set breakindent                     " wrap preserving the indent
@@ -20,26 +21,50 @@ set scrolloff=3                     " show 3 lines before/after current line
 set splitbelow                      " horizontal split window to bottom
 set splitright                      " vertical split window to right                
 set incsearch                       " highlight next search
-set foldmethod=manual
+set timeoutlen=1000 ttimeoutlen=0   " remove keyboard delay
+set foldmethod=manual               " **insert redundent comment here**
 
-" set indent and tab stuff
-set ts=4                            "show existing tabs with 4 spaces
-set sw=4                            "use 4 spaces when useing '>'
-set expandtab                       "on pressing tab, insert 4 spaces
-set softtabstop=4                   "backspace behavior on space indents 
-let g:indent_guides_start_level=2
-let g:indent_guides_guide_size=1
+" Change color of background beyond 80 characters
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+let &colorcolumn=join(range(81,999),",")
+
+" set indention and tab stuff
+set ts=4                            " show existing tabs with 4 spaces
+set sw=4                            " use 4 spaces when useing '>'
+set expandtab                       " on pressing tab, insert 4 spaces
+set softtabstop=4                   " backspace behavior on space indents 
+
+" Enable true color
+set termguicolors " Enable true color support.
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " set theme
 colorscheme monokai                 " for some reason need to load this for other shit to work
 let g:seoul256_background = 233
-" colo seoul256
-:colorscheme space-vim-dark
+colorscheme space-vim-dark
 if has('gui_running')
     colorscheme atom-dark
 endif
+set background=light
 set background=dark
 
+" Toggle transparent background
+let t:is_transparent = 0
+function! Toggle_transparent()
+    if t:is_transparent == 0
+        hi Normal guibg=NONE ctermbg=NONE
+        let t:is_transparent = 1
+    else
+        colorscheme space-vim-dark
+        set background=dark
+        let t:is_transparent = 0
+    endif
+endfunction
+nnoremap <C-t> : call Toggle_transparent()<CR>
+"...............................................................................
+
+" ALE and Lightline configurations..............................................
 " needed for lightline
 set laststatus=2
 " config lightline
@@ -90,17 +115,18 @@ function! LightlineLinterOK() abort
   let l:all_non_errors = l:counts.total - l:all_errors
   return l:counts.total == 0 ? '✓' : ''
 endfunction
+"...............................................................................
 
+"...............................................................................
 " remove menu, tool and scroll bars for gvim
 if has('gui_running')
     set guioptions-=m               "menu bar
     set guioptions-=T               "toolbar
     set guioptions-=r               "scrollbar
 endif
-"......................
+"...............................................................................
 
-".....remaps.....
-
+" Remaps........................................................................
 " folding inside braces
 nnoremap Zf vi{zf
 
@@ -111,8 +137,11 @@ nnoremap <Tab>l <C-w><C-l>
 nnoremap <Tab>j <C-w><C-j>
 nnoremap <Tab>k <C-w><C-k>
 
+" make split occupy all vertical space
 nnoremap <Tab><Leader> <C-w>\|
+" make split occupy all horizonal space
 nnoremap <Tab>- <C-w>_
+" all splits occupy equal space
 nnoremap <Tab>= <C-w>=
 
 " common typos
@@ -143,7 +172,7 @@ vnoremap <C-c> "+y
 " remap pasting to system clipboard
 vnoremap <C-p> "+p
 nnoremap <C-p> "+p
-inoremap <C-v> <Esc>"+pa
+inoremap <C-v> <Esc>"+pa    " put and enter insert mode
 
 " select all
 nnoremap <C-a> ggvG$
@@ -162,19 +191,45 @@ inoremap <C-w> <Esc>:up<CR> <Esc> :q<CR> :echo 'save and quit' <CR>
 " close scratch
 inoremap <C-c> <Esc>:pclose<CR>a
 nnoremap <C-c> <Esc>:pclose<CR>
-"...............
 
-" Set ultisnips triggers, because fuck YouCompleteMe
+" make build and make run shortcuts and output to Scratch buffer.
+nnoremap <F9> :Scratch!<CR>:0read !make build<CR><CR>
+nnoremap <F10> :Scratch!<CR>:0read !make run<CR><CR>
+let g:scratch_height=15
+let g:scratch_top=0
+"...............................................................................
+
+" UltiSnips Stuff...............................................................
+" Change ultisnips triggers, because fuck YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+"...............................................................................
 
+" YouCompleteMe Stuff...........................................................
+" Restart ycmd with proper python path set for Jedi.
+python << EOF
+import sys, vim, os
+def setJediHttpPythonPath():
+    ve_dir = vim.eval('$VIRTUAL_ENV')
+    ve_dir in sys.path or sys.path.insert(0, ve_dir)
+    ve_path = os.path.join(os.path.join(ve_dir, 'bin'), 'python3')
+    vim.command("YcmCompleter RestartServer "+ve_path)
+    vim.command("echo 'restarting ycmd with virtualenv %s'" % (ve_dir))
+EOF
+nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>   
+
+" let g:ycm_filetype_specific_completion_to_disable = {
+"       \ 'java': 1
+"       \}
+
+" Misc. ycm stuff.
 let &titleold=getcwd()
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
+"...............................................................................
 
-" nnoremap <F7> :Scratch<CR>
-nnoremap <F8> :Scratch!<CR>:0read !make build<CR><CR>
-nnoremap <F9> :Scratch!<CR>:0read !make run<CR><CR>
-let g:scratch_height=15
-let g:scratch_top=0
+" Change command to invoke CtrlP................................................
+let g:ctrlp_map = '<c-o>'
+let g:ctrlp_cmd = 'CtrlP'
+"...............................................................................

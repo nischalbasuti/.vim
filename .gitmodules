@@ -79,3 +79,15 @@
 [submodule "bundle/space-vim-dark"]
 	path = bundle/space-vim-dark
 	url = https://github.com/liuchengxu/space-vim-dark.git
+[submodule "bundle/ctrlp"]
+	path = bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "bundle/vim-javacomplete2"]
+	path = bundle/vim-javacomplete2
+	url = https://github.com/artur-shaik/vim-javacomplete2.git
+[submodule "bundle/vim-eclim"]
+	path = bundle/vim-eclim
+	url = https://github.com/dansomething/vim-eclim.git
+[submodule "bundle/dracula-theme"]
+	path = bundle/dracula-theme
+	url = git@github.com:dracula/vim.git
