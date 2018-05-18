@@ -19,14 +19,10 @@ set scrolloff=3                     " show 3 lines before/after current line
 "set hlsearch                       " highlight search results
 "set spell spelllang=en_us          " check spelling
 set splitbelow                      " horizontal split window to bottom
-set splitright                      " vertical split window to right                
+set splitright                      " vertical split window to right
 set incsearch                       " highlight next search
 set timeoutlen=1000 ttimeoutlen=0   " remove keyboard delay
 set foldmethod=manual               " **insert redundent comment here**
-
-" Change color of background beyond 80 characters
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-let &colorcolumn=join(range(81,999),",")
 
 " set indention and tab stuff
 set ts=4                            " show existing tabs with 4 spaces
@@ -49,15 +45,44 @@ endif
 set background=light
 set background=dark
 
+
+" Function to make background transparent and change color of
+" background of only the text beyond 80 chars.
+function! Make_transparent()
+    hi Normal guibg=NONE ctermbg=NONE
+
+    " Change color of background beyond 80 characters
+    highlight ColorColumn ctermbg=NONE guibg=NONE
+    let &colorcolumn=join(range(81,999),",")
+
+    " Highlight Columns that cross 80 characters
+    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+    match OverLength /\%81v.\+/
+endfunction
+
+" Function to make opaque and change color of background beyond 
+" 80 chars
+function! Make_opaque()
+        colorscheme space-vim-dark
+        set background=dark
+
+        " Change color of background beyond 80 characters
+        highlight ColorColumn ctermbg=235 guibg=#2c2d27
+        let &colorcolumn=join(range(81,999),",")
+
+endfunction
+
 " Toggle transparent background
 let t:is_transparent = 0
 function! Toggle_transparent()
     if t:is_transparent == 0
-        hi Normal guibg=NONE ctermbg=NONE
+    " Make transparent
+        call Make_transparent()
+
         let t:is_transparent = 1
     else
-        colorscheme space-vim-dark
-        set background=dark
+    " Make opaque
+        call Make_opaque()
         let t:is_transparent = 0
     endif
 endfunction
@@ -187,6 +212,8 @@ EOF
 nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>   
 
 " let g:ycm_filetype_specific_completion_to_disable = {
+" some random change yo! When will it show up?
+" the world may never know.
 "       \ 'java': 1
 "       \}
 
@@ -200,3 +227,4 @@ let g:ycm_show_diagnostics_ui = 0
 let g:ctrlp_map = '<c-o>'
 let g:ctrlp_cmd = 'CtrlP'
 "...............................................................................
+call Make_transparent()
