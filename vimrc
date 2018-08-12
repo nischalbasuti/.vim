@@ -12,17 +12,24 @@ set smartcase                       " case sensitive if search expression
                                     " includes an uppercase character
 set ignorecase                      " do case insensitive search
 set number                          " show line numbers
+set relativenumber                  " show relative line numbers
 set breakindent                     " wrap preserving the indent
 set title                           " show title on file opened
 set cursorline                      " highlight current line
 set scrolloff=3                     " show 3 lines before/after current line
-"set hlsearch                       " highlight search results
+set nohlsearch                      " turn off search highlight
+set incsearch                       " jump to search results while typing
 "set spell spelllang=en_us          " check spelling
 set splitbelow                      " horizontal split window to bottom
 set splitright                      " vertical split window to right
 set incsearch                       " highlight next search
 set timeoutlen=1000 ttimeoutlen=0   " remove keyboard delay
 set foldmethod=manual               " **insert redundent comment here**
+
+" Only for neovim
+if has('nvim')
+    set inccommand=split
+endif
 
 " set indention and tab stuff
 set ts=4                            " show existing tabs with 4 spaces
@@ -39,16 +46,18 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 colorscheme monokai                 " for some reason need to load this for other shit to work
 let g:seoul256_background = 233
 colorscheme space-vim-dark
+colorscheme ir_black
+colorscheme PaperColor
 if has('gui_running')
     colorscheme atom-dark
 endif
 set background=light
 set background=dark
 
-
 " Function to make background transparent and change color of
 " background of only the text beyond 80 chars.
 function! Make_transparent()
+    let t:is_transparent = 1
     hi Normal guibg=NONE ctermbg=NONE
 
     " Change color of background beyond 80 characters
@@ -63,30 +72,43 @@ endfunction
 " Function to make opaque and change color of background beyond 
 " 80 chars
 function! Make_opaque()
-        colorscheme space-vim-dark
-        set background=dark
+    let t:is_transparent = 0
+    " colorscheme space-vim-dark
+    " colorscheme ir_black
+    colorscheme PaperColor
+    set background=dark
 
-        " Change color of background beyond 80 characters
-        highlight ColorColumn ctermbg=235 guibg=#2c2d27
-        let &colorcolumn=join(range(81,999),",")
+    " Change color of background beyond 80 characters
+    highlight ColorColumn ctermbg=235 guibg=#2c2d27
+    let &colorcolumn=join(range(81,999),",")
+    " let &colorcolumn=join(range(121,999),",")
 
 endfunction
 
-" Toggle transparent background
-let t:is_transparent = 0
+" Toggle transparent background.
 function! Toggle_transparent()
     if t:is_transparent == 0
-    " Make transparent
+    " Make transparent.
         call Make_transparent()
-
-        let t:is_transparent = 1
     else
-    " Make opaque
+    " Make opaque.
         call Make_opaque()
-        let t:is_transparent = 0
     endif
 endfunction
 nnoremap <C-t> : call Toggle_transparent()<CR>
+
+" Toggle tagbar with auto close.
+let t:is_tagbarOpen = 0
+function! TagbarToggle()
+    if t:is_tagbarOpen == 0
+        :TagbarOpenAutoClose
+        let t:is_tagbarOpen = 1
+    else 
+        :TagbarClose
+        let t:is_tagbarOpen = 0
+    endif
+endfunction
+nnoremap <C-b> :call TagbarToggle()<CR>
 "...............................................................................
 
 " Lightline configurations..............................................
@@ -164,7 +186,7 @@ vnoremap <C-c> "+y
 " remap pasting to system clipboard
 vnoremap <C-p> "+p
 nnoremap <C-p> "+p
-inoremap <C-v> <Esc>"+pa    " put and enter insert mode
+inoremap <C-v> <Esc>"+pa
 
 " select all
 nnoremap <C-a> ggvG$
@@ -206,10 +228,11 @@ def setJediHttpPythonPath():
     ve_dir = vim.eval('$VIRTUAL_ENV')
     ve_dir in sys.path or sys.path.insert(0, ve_dir)
     ve_path = os.path.join(os.path.join(ve_dir, 'bin'), 'python3')
-    vim.command("YcmCompleter RestartServer "+ve_path)
+    vim.command("let g:ycm_server_python_interpreter = '%s'" % (ve_path))
+    vim.command("YcmRestartServer")
     vim.command("echo 'restarting ycmd with virtualenv %s'" % (ve_dir))
 EOF
-nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>   
+nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>
 
 " let g:ycm_filetype_specific_completion_to_disable = {
 " some random change yo! When will it show up?
@@ -219,12 +242,27 @@ nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>
 
 " Misc. ycm stuff.
 let &titleold=getcwd()
+
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 0
+" let g:ycm_show_diagnostics_ui = 0
 "...............................................................................
 
 " Change command to invoke CtrlP................................................
 let g:ctrlp_map = '<c-o>'
 let g:ctrlp_cmd = 'CtrlP'
 "...............................................................................
-call Make_transparent()
+" call Make_transparent()
+call Make_opaque()
+if has('gui_running')
+    call Make_opaque()
+endif
+
+" Python Specific Stuff.........................................................
+" Highlight 'self'.
+augroup python
+    autocmd!
+    autocmd FileType python
+                \   syn keyword pythonSelf self
+                \ | highlight def link pythonSelf Special
+augroup end
+let python_highlight_all=1
