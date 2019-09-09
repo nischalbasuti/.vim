@@ -1,4 +1,48 @@
-execute pathogen#infect()
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'jiangmiao/auto-pairs.git'
+Plugin 'docunext/closetag.vim'
+Plugin 'kien/ctrlp.vim.git'
+Plugin 'dracula/vim.git'
+Plugin 'morhetz/gruvbox.git'
+Plugin 'twerth/ir_black.git'
+Plugin 'itchyny/lightline.vim'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'NLKNguyen/papercolor-theme.git'
+Plugin 'hdima/python-syntax.git'
+Plugin 'mtth/scratch.vim.git'
+Plugin 'junegunn/seoul256.vim.git'
+Plugin 'liuchengxu/space-vim-dark.git'
+Plugin 'majutsushi/tagbar.git'
+Plugin 'tomtom/tlib_vim.git'
+Plugin 'leafgarland/typescript-vim.git'
+Plugin 'SirVer/ultisnips.git'
+Plugin 'MarcWeber/vim-addon-mw-utils.git'
+Plugin 'gosukiwi/vim-atom-dark.git'
+Plugin 'tpope/vim-commentary'
+Plugin 'ap/vim-css-color.git'
+Plugin 'tpope/vim-fugitive.git'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'whatyouhide/vim-gotham.git'
+Plugin 'crusoexia/vim-javascript-lib.git'
+Plugin 'jelera/vim-javascript-syntax.git'
+Plugin 'mxw/vim-jsx.git'
+Plugin 'tommcdo/vim-lion.git'
+Plugin 'rakr/vim-one'
+Plugin 'honza/vim-snippets.git'
+Plugin 'tpope/vim-surround.git'
+Plugin 'gmarik/vundle.git'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-rails'
+Plugin 'w0rp/ale'
+Plugin 'epilande/vim-react-snippets'
+Plugin 'thaerkh/vim-indentguides'
+Plugin 'noprompt/vim-yardoc'
+Plugin 'autozimu/LanguageClient-neovim'
 
 " Preferences...................................................................
 filetype plugin indent on
@@ -38,15 +82,13 @@ set expandtab                       " on pressing tab, insert 4 spaces
 set softtabstop=4                   " backspace behavior on space indents 
 
 " Enable true color
-set termguicolors " Enable true color support.
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" set termguicolors " Enable true color support.
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " set theme
 colorscheme monokai                 " for some reason need to load this for other shit to work
 let g:seoul256_background = 233
-colorscheme space-vim-dark
-colorscheme ir_black
 colorscheme PaperColor
 if has('gui_running')
     colorscheme atom-dark
@@ -73,15 +115,14 @@ endfunction
 " 80 chars
 function! Make_opaque()
     let t:is_transparent = 0
-    " colorscheme space-vim-dark
-    " colorscheme ir_black
     colorscheme PaperColor
     set background=dark
 
     " Change color of background beyond 80 characters
     highlight ColorColumn ctermbg=235 guibg=#2c2d27
-    let &colorcolumn=join(range(81,999),",")
-    " let &colorcolumn=join(range(121,999),",")
+    " let &colorcolumn='81,82,131,132'
+    " highlight ColorColumn ctermbg=235 guibg=#454545
+    let &colorcolumn='81,121'
 
 endfunction
 
@@ -168,9 +209,9 @@ command Q q
 "nnoremap d "_d
 "vnoremap d "_d
 
-" nerdtreetoggle
-inoremap <C-f> <Esc>:NERDTreeToggle<CR>
-nnoremap <C-f> <Esc>:NERDTreeToggle<CR>
+" nerdtreefind, open nerdtree with path to current file expanded.
+inoremap <C-f> <Esc>:NERDTreeFind<CR>
+nnoremap <C-f> <Esc>:NERDTreeFind<CR>
 
 " moving lines
 nnoremap <C-J> :m .+1<CR>==
@@ -220,33 +261,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 "...............................................................................
 
-" YouCompleteMe Stuff...........................................................
-" Restart ycmd with proper python path set for Jedi.
-python << EOF
-import sys, vim, os
-def setJediHttpPythonPath():
-    ve_dir = vim.eval('$VIRTUAL_ENV')
-    ve_dir in sys.path or sys.path.insert(0, ve_dir)
-    ve_path = os.path.join(os.path.join(ve_dir, 'bin'), 'python3')
-    vim.command("let g:ycm_server_python_interpreter = '%s'" % (ve_path))
-    vim.command("YcmRestartServer")
-    vim.command("echo 'restarting ycmd with virtualenv %s'" % (ve_dir))
-EOF
-nnoremap <F2> :python setJediHttpPythonPath()<CR><CR>
-
-" let g:ycm_filetype_specific_completion_to_disable = {
-" some random change yo! When will it show up?
-" the world may never know.
-"       \ 'java': 1
-"       \}
-
-" Misc. ycm stuff.
-let &titleold=getcwd()
-
-let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-" let g:ycm_show_diagnostics_ui = 0
-"...............................................................................
-
 " Change command to invoke CtrlP................................................
 let g:ctrlp_map = '<c-o>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -266,3 +280,34 @@ augroup python
                 \ | highlight def link pythonSelf Special
 augroup end
 let python_highlight_all=1
+let g:jsx_ext_required = 0
+
+augroup ruby
+    autocmd!
+    autocmd FileType html,xml,js,eruby,ruby,erb
+                \ set ts=2           " show existing tabs with 2 spaces
+                \ set sw=2           " use 2 spaces when useing '>'
+                \ set expandtab      " on pressing tab, insert 2 spaces
+                \ set softtabstop=2  " backspace behavior on space indents 
+augroup end
+
+" ALE...........................................................................
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+
+" Language Server...............................................................
+" Tell the language client to use the default IP and port
+" that Solargraph runs on
+" \ 'ruby': ['tcp://localhost:7658']
+let g:LanguageClient_serverCommands = {
+    \ 'ruby': ['solargraph', 'stdio']
+    \ }
+
+" Don't send a stop signal to the server when exiting vim.
+" This is optional, but I don't like having to restart Solargraph
+" every time I restart vim.
+let g:LanguageClient_autoStop = 0
+
+" Configure ruby omni-completion to use the language client:
+autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
