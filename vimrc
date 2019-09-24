@@ -14,7 +14,6 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'NLKNguyen/papercolor-theme.git'
 Plugin 'hdima/python-syntax.git'
-Plugin 'mtth/scratch.vim.git'
 Plugin 'junegunn/seoul256.vim.git'
 Plugin 'liuchengxu/space-vim-dark.git'
 Plugin 'majutsushi/tagbar.git'
@@ -52,7 +51,7 @@ set mouse=a                         " add mouse support
 set viminfo='51,<1000,s100,h        " increase maximum number of lines to yank
 set wrap linebreak nolist           " wrap whole words instead of characters
 set display+=lastline               " display long lines on same screen
-set smartcase                       " case sensitive if search expression 
+set smartcase                       " case sensitive if search expression \
                                     " includes an uppercase character
 set ignorecase                      " do case insensitive search
 set number                          " show line numbers
@@ -69,6 +68,8 @@ set splitright                      " vertical split window to right
 set incsearch                       " highlight next search
 set timeoutlen=1000 ttimeoutlen=0   " remove keyboard delay
 set foldmethod=manual               " **insert redundent comment here**
+set synmaxcol=200                   " prevent vim from dying when line length \
+                                    " is too long
 
 " Only for neovim
 if has('nvim')
@@ -86,100 +87,47 @@ set softtabstop=4                   " backspace behavior on space indents
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-" set theme
-colorscheme monokai                 " for some reason need to load this for other shit to work
-let g:seoul256_background = 233
-colorscheme PaperColor
-if has('gui_running')
-    colorscheme atom-dark
-endif
-set background=light
-set background=dark
-
-" Function to make background transparent and change color of
-" background of only the text beyond 80 chars.
-function! Make_transparent()
-    let t:is_transparent = 1
-    hi Normal guibg=NONE ctermbg=NONE
-
-    " Change color of background beyond 80 characters
-    highlight ColorColumn ctermbg=NONE guibg=NONE
-    let &colorcolumn=join(range(81,999),",")
-
-    " Highlight Columns that cross 80 characters
-    highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-    match OverLength /\%81v.\+/
-endfunction
-
-" Function to make opaque and change color of background beyond 
-" 80 chars
-function! Make_opaque()
-    let t:is_transparent = 0
+" Set theme.....................................................................
+function! Set_colorscheme()
     colorscheme PaperColor
     set background=dark
-
-    " Change color of background beyond 80 characters
-    highlight ColorColumn ctermbg=235 guibg=#2c2d27
-    " let &colorcolumn='81,82,131,132'
-    " highlight ColorColumn ctermbg=235 guibg=#454545
-    let &colorcolumn='81,121'
-
 endfunction
 
-" Toggle transparent background.
+" Function to highlight lines 81 and 121
+function! Highlight_columns()
+    highlight ColorColumn ctermbg=235 guibg=#2c2d27
+    let &colorcolumn='81,121'
+endfunction
+
+" Note: transparancy is dependent on the terminal emulator, this function
+" simply removes vim's background.
+function! Make_transparent()
+    let t:is_transparent = 1
+    highlight Normal guibg=NONE ctermbg=NONE
+    call Highlight_columns()
+endfunction
+
+function! Make_opaque()
+    let t:is_transparent = 0
+    call Set_colorscheme()
+    call Highlight_columns()
+endfunction
+
+call Make_opaque()
+"/..............................................................................
+
+" Toggle transparent background.................................................
 function! Toggle_transparent()
     if t:is_transparent == 0
-    " Make transparent.
         call Make_transparent()
     else
-    " Make opaque.
         call Make_opaque()
     endif
 endfunction
+
 nnoremap <C-t> : call Toggle_transparent()<CR>
+"/..............................................................................
 
-" Toggle tagbar with auto close.
-let t:is_tagbarOpen = 0
-function! TagbarToggle()
-    if t:is_tagbarOpen == 0
-        :TagbarOpenAutoClose
-        let t:is_tagbarOpen = 1
-    else 
-        :TagbarClose
-        let t:is_tagbarOpen = 0
-    endif
-endfunction
-nnoremap <C-b> :call TagbarToggle()<CR>
-"...............................................................................
-
-" Lightline configurations..............................................
-" needed for lightline
-set laststatus=2
-" config lightline
-let g:lightline = {
-        \    'colorscheme': 'seoul256',
-        \    'active': {
-        \      'left': [ [ 'mode', 'paste' ],
-        \                [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
-        \      'right':  [ [ 'lineinfo' ],
-        \                 [ 'percent' ],
-        \                 [ 'linter_warnings', 'linter_errors', 'linter_ok' ],
-        \                 [ 'fileformat', 'fileencoding', 'filetype' ] ]
-        \    },
-        \    'component_function': {
-        \      'gitbranch': 'fugitive#head'
-        \    },
-        \ }
-"...............................................................................
-
-"...............................................................................
-" remove menu, tool and scroll bars for gvim
-if has('gui_running')
-    set guioptions-=m               "menu bar
-    set guioptions-=T               "toolbar
-    set guioptions-=r               "scrollbar
-endif
-"...............................................................................
 
 " Remaps........................................................................
 " folding inside braces
@@ -205,9 +153,7 @@ command Wq wq
 command WQ wq
 command Q q
 
-" prevent d from yanking 
-"nnoremap d "_d
-"vnoremap d "_d
+nnoremap <C-b> :TagbarToggle<CR>
 
 " nerdtreefind, open nerdtree with path to current file expanded.
 inoremap <C-f> <Esc>:NERDTreeFind<CR>
@@ -246,30 +192,19 @@ inoremap <C-w> <Esc>:up<CR> <Esc> :q<CR> :echo 'save and quit' <CR>
 " close scratch
 inoremap <C-c> <Esc>:pclose<CR>a
 nnoremap <C-c> <Esc>:pclose<CR>
-
-" make build and make run shortcuts and output to Scratch buffer.
-nnoremap <F9> :Scratch!<CR>:0read !make build<CR><CR>
-nnoremap <F10> :Scratch!<CR>:0read !make run<CR><CR>
-let g:scratch_height=15
-let g:scratch_top=0
-"...............................................................................
+"/..............................................................................
 
 " UltiSnips Stuff...............................................................
 " Change ultisnips triggers, because fuck YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<C-l>"
 let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
-"...............................................................................
+"/..............................................................................
 
 " Change command to invoke CtrlP................................................
 let g:ctrlp_map = '<c-o>'
 let g:ctrlp_cmd = 'CtrlP'
-"...............................................................................
-" call Make_transparent()
-call Make_opaque()
-if has('gui_running')
-    call Make_opaque()
-endif
+"/..............................................................................
 
 " Python Specific Stuff.........................................................
 " Highlight 'self'.
@@ -280,8 +215,9 @@ augroup python
                 \ | highlight def link pythonSelf Special
 augroup end
 let python_highlight_all=1
-let g:jsx_ext_required = 0
+"/..............................................................................
 
+" Ruby Specific Stuff...........................................................
 augroup ruby
     autocmd!
     autocmd FileType html,xml,js,eruby,ruby,erb
@@ -290,24 +226,55 @@ augroup ruby
                 \ set expandtab      " on pressing tab, insert 2 spaces
                 \ set softtabstop=2  " backspace behavior on space indents 
 augroup end
+"/..............................................................................
+
+" JavaScript Specific Stuff.....................................................
+let g:jsx_ext_required = 0
+"/..............................................................................
 
 " ALE...........................................................................
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
+"/..............................................................................
 
 " Language Server...............................................................
-" Tell the language client to use the default IP and port
-" that Solargraph runs on
-" \ 'ruby': ['tcp://localhost:7658']
 let g:LanguageClient_serverCommands = {
     \ 'ruby': ['solargraph', 'stdio']
     \ }
 
 " Don't send a stop signal to the server when exiting vim.
-" This is optional, but I don't like having to restart Solargraph
-" every time I restart vim.
 let g:LanguageClient_autoStop = 0
 
 " Configure ruby omni-completion to use the language client:
 autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+"/..............................................................................
+
+" Lightline configurations..............................................
+" needed for lightline
+set laststatus=2
+" config lightline
+let g:lightline = {
+        \    'colorscheme': 'seoul256',
+        \    'active': {
+        \      'left': [ [ 'mode', 'paste' ],
+        \                [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+        \      'right':  [ [ 'lineinfo' ],
+        \                 [ 'percent' ],
+        \                 [ 'linter_warnings', 'linter_errors', 'linter_ok' ],
+        \                 [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \    },
+        \    'component_function': {
+        \      'gitbranch': 'fugitive#head'
+        \    },
+        \ }
+"/..............................................................................
+
+"GUI Specific Configs...........................................................
+" remove menu, tool and scroll bars for gvim
+if has('gui_running')
+    set guioptions-=m               "menu bar
+    set guioptions-=T               "toolbar
+    set guioptions-=r               "scrollbar
+endif
+"/..............................................................................
