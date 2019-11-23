@@ -35,10 +35,10 @@ Plugin 'docunext/closetag.vim'
 Plugin 'tommcdo/vim-lion.git'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround.git'
-Plugin 'autozimu/LanguageClient-neovim'
 Plugin 'w0rp/ale'
 Plugin 'honza/vim-snippets.git'
 Plugin 'SirVer/ultisnips.git'
+Plugin 'neoclide/coc.nvim'
 
 " language specific
 Plugin 'ap/vim-css-color.git'
@@ -259,30 +259,6 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 "/..............................................................................
 
-" Language Server...............................................................
-let g:LanguageClient_serverCommands = {
-    \ 'ruby': ['solargraph', 'stdio'],
-    \ 'python': ['pyls']
-    \ }
-
-" Don't send a stop signal to the server when exiting vim.
-let g:LanguageClient_autoStop = 0
-
-" Configure ruby omni-completion to use the language client:
-autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
-autocmd FileType python setlocal omnifunc=LanguageClient#complete
-
-autocmd FileType * call LanguageClientMaps()
-
-function! LanguageClientMaps()
-    if has_key(g:LanguageClient_serverCommands, &filetype)
-        nnoremap <buffer> <silent> gd
-                    \ :call LanguageClient#textDocument_definition()<CR>
-    endif
-endfunction
-
-"/..............................................................................
-
 " Lightline configurations..............................................
 " needed for lightline
 set laststatus=2
@@ -342,3 +318,18 @@ command Rs :call RetrieveSessionGitBranch()
 " Strip leading whitespaces on save
 autocmd FileType c,cpp,java,php,ruby,python,javascript autocmd BufWritePre <buffer> %s/\s\+$//e
 
+" coc settings..................................................................
+" From: http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_global_extensions = ['coc-solargraph']
+"/..............................................................................
