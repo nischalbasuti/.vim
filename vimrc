@@ -325,4 +325,11 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_global_extensions = ['coc-solargraph']
+
+" Jump to definition
+nmap <silent> gd <Plug>(coc-definition)
+
+" Jump to definion with verticle split
+let g:coc_user_config = {}
+let g:coc_user_config['coc.preferences.jumpCommand'] = 'vsp'
 "/..............................................................................
