@@ -35,7 +35,6 @@ Plugin 'docunext/closetag.vim'
 Plugin 'tommcdo/vim-lion.git'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround.git'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'autozimu/LanguageClient-neovim'
 Plugin 'w0rp/ale'
 Plugin 'honza/vim-snippets.git'
@@ -282,8 +281,6 @@ function! LanguageClientMaps()
     endif
 endfunction
 
-" Disable omnifunc cache in YCM.
-let g:ycm_cache_omnifunc = 0
 "/..............................................................................
 
 " Lightline configurations..............................................
