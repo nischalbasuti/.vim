@@ -1,47 +1,62 @@
+" Make vundle work
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'jiangmiao/auto-pairs.git'
-Plugin 'docunext/closetag.vim'
+" misc
+Plugin 'MarcWeber/vim-addon-mw-utils.git'
+Plugin 'tomtom/tlib_vim.git'
+Plugin 'gmarik/vundle.git'
+Plugin 'itchyny/lightline.vim'
+Plugin 'scrooloose/nerdtree.git'
 Plugin 'kien/ctrlp.vim.git'
+Plugin 'majutsushi/tagbar.git'
+Plugin 'thaerkh/vim-indentguides'
+Plugin 'itchyny/vim-gitbranch'
+Plugin 'tpope/vim-abolish'
+
+" themes
 Plugin 'dracula/vim.git'
 Plugin 'morhetz/gruvbox.git'
 Plugin 'twerth/ir_black.git'
-Plugin 'itchyny/lightline.vim'
-Plugin 'scrooloose/nerdtree.git'
 Plugin 'NLKNguyen/papercolor-theme.git'
-Plugin 'hdima/python-syntax.git'
-Plugin 'junegunn/seoul256.vim.git'
-Plugin 'liuchengxu/space-vim-dark.git'
-Plugin 'majutsushi/tagbar.git'
-Plugin 'tomtom/tlib_vim.git'
-Plugin 'leafgarland/typescript-vim.git'
-Plugin 'SirVer/ultisnips.git'
-Plugin 'MarcWeber/vim-addon-mw-utils.git'
 Plugin 'gosukiwi/vim-atom-dark.git'
+Plugin 'liuchengxu/space-vim-dark.git'
+Plugin 'joshdick/onedark.vim'
+Plugin 'whatyouhide/vim-gotham.git'
+Plugin 'rakr/vim-one'
+Plugin 'junegunn/seoul256.vim.git'
+Plugin 'arzg/vim-substrata'
+
+" editing,completion and linting
+Plugin 'jiangmiao/auto-pairs.git'
+Plugin 'docunext/closetag.vim'
+Plugin 'tommcdo/vim-lion.git'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-surround.git'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'autozimu/LanguageClient-neovim'
+Plugin 'w0rp/ale'
+Plugin 'honza/vim-snippets.git'
+Plugin 'SirVer/ultisnips.git'
+
+" language specific
 Plugin 'ap/vim-css-color.git'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'hdima/python-syntax.git'
+Plugin 'mxw/vim-jsx.git'
+Plugin 'noprompt/vim-yardoc'
+Plugin 'leafgarland/typescript-vim.git'
+Plugin 'epilande/vim-react-snippets'
+Plugin 'jelera/vim-javascript-syntax.git'
+Plugin 'crusoexia/vim-javascript-lib.git'
+
+" git
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'whatyouhide/vim-gotham.git'
-Plugin 'crusoexia/vim-javascript-lib.git'
-Plugin 'jelera/vim-javascript-syntax.git'
-Plugin 'mxw/vim-jsx.git'
-Plugin 'tommcdo/vim-lion.git'
-Plugin 'rakr/vim-one'
-Plugin 'honza/vim-snippets.git'
-Plugin 'tpope/vim-surround.git'
-Plugin 'gmarik/vundle.git'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-rails'
-Plugin 'w0rp/ale'
-Plugin 'epilande/vim-react-snippets'
-Plugin 'thaerkh/vim-indentguides'
-Plugin 'noprompt/vim-yardoc'
-Plugin 'autozimu/LanguageClient-neovim'
+Plugin 'rhysd/conflict-marker.vim'
 
 " Preferences...................................................................
 filetype plugin indent on
@@ -156,8 +171,15 @@ command Q q
 nnoremap <C-b> :TagbarToggle<CR>
 
 " nerdtreefind, open nerdtree with path to current file expanded.
-inoremap <C-f> <Esc>:NERDTreeFind<CR>
-nnoremap <C-f> <Esc>:NERDTreeFind<CR>
+function MyNerdToggle()
+    if &filetype == 'nerdtree'
+        :NERDTreeToggle
+    else
+        :NERDTreeFind
+    endif
+endfunction
+inoremap <C-f> <Esc>:call MyNerdToggle()<CR>
+nnoremap <C-f> <Esc>:call MyNerdToggle()<CR>
 
 " moving lines
 nnoremap <C-J> :m .+1<CR>==
@@ -240,7 +262,8 @@ let g:ale_lint_on_save = 1
 
 " Language Server...............................................................
 let g:LanguageClient_serverCommands = {
-    \ 'ruby': ['solargraph', 'stdio']
+    \ 'ruby': ['solargraph', 'stdio'],
+    \ 'python': ['pyls']
     \ }
 
 " Don't send a stop signal to the server when exiting vim.
@@ -248,6 +271,19 @@ let g:LanguageClient_autoStop = 0
 
 " Configure ruby omni-completion to use the language client:
 autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+autocmd FileType python setlocal omnifunc=LanguageClient#complete
+
+autocmd FileType * call LanguageClientMaps()
+
+function! LanguageClientMaps()
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+        nnoremap <buffer> <silent> gd
+                    \ :call LanguageClient#textDocument_definition()<CR>
+    endif
+endfunction
+
+" Disable omnifunc cache in YCM.
+let g:ycm_cache_omnifunc = 0
 "/..............................................................................
 
 " Lightline configurations..............................................
@@ -255,19 +291,19 @@ autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
 set laststatus=2
 " config lightline
 let g:lightline = {
-        \    'colorscheme': 'seoul256',
-        \    'active': {
-        \      'left': [ [ 'mode', 'paste' ],
-        \                [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
-        \      'right':  [ [ 'lineinfo' ],
-        \                 [ 'percent' ],
-        \                 [ 'linter_warnings', 'linter_errors', 'linter_ok' ],
-        \                 [ 'fileformat', 'fileencoding', 'filetype' ] ]
-        \    },
-        \    'component_function': {
-        \      'gitbranch': 'fugitive#head'
-        \    },
-        \ }
+            \    'colorscheme': 'seoul256',
+            \    'active': {
+            \      'left': [ [ 'mode', 'paste' ],
+            \                [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+            \      'right':  [ [ 'lineinfo' ],
+            \                 [ 'percent' ],
+            \                 [ 'linter_warnings', 'linter_errors', 'linter_ok' ],
+            \                 [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \    },
+            \    'component_function': {
+            \      'gitbranch': 'fugitive#head'
+            \    },
+            \ }
 "/..............................................................................
 
 "GUI Specific Configs...........................................................
@@ -278,3 +314,34 @@ if has('gui_running')
     set guioptions-=r               "scrollbar
 endif
 "/..............................................................................
+
+" Update GitGutter on save
+autocmd BufWritePost * GitGutter
+
+" Disable characters (json and markdown files)
+let g:indentguides_ignorelist = ['json', 'markdown']
+autocmd FileType json set conceallevel=0
+autocmd FileType markdown set conceallevel=0
+
+let g:indentguides_spacechar = '⎸' " 'LEFT VERTICAL BOX LINE' (U+23B8)
+
+
+function! MakeSessionGitBranch()
+    execute 'NERDTreeClose'
+    let l:command=substitute('mksession!  session_'.fugitive#head(), "/", "-", "").'.vim'
+    execute l:command
+    echo l:command
+endfunction
+
+function! RetrieveSessionGitBranch()
+    let l:command=substitute('source session_'.fugitive#head(), "/", "-", "").'.vim'
+    execute l:command
+    echo l:command
+endfunction
+
+command Ms :call MakeSessionGitBranch()
+command Rs :call RetrieveSessionGitBranch()
+
+" Strip leading whitespaces on save
+autocmd FileType c,cpp,java,php,ruby,python,javascript autocmd BufWritePre <buffer> %s/\s\+$//e
+
