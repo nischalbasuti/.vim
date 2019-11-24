@@ -320,6 +320,7 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_global_extensions = ['coc-python']
 let g:coc_global_extensions = ['coc-lists']
 
 " Jump to definition
@@ -332,6 +333,7 @@ let g:coc_user_config['solargraph.diagnostics'] = 'true'
 let g:coc_user_config['solargraph.autoformat'] = 'true'
 let g:coc_user_config['solargraph.formatting'] = 'true'
 let g:coc_user_config['solargraph.hover'] = 'true'
+let g:coc_user_config['python.jediEnabled'] = 'true'
 "/..............................................................................
 "
 " Fuzzy find with coc-lists.....................................................
