@@ -10,7 +10,6 @@ Plugin 'tomtom/tlib_vim.git'
 Plugin 'gmarik/vundle.git'
 Plugin 'itchyny/lightline.vim'
 Plugin 'scrooloose/nerdtree.git'
-Plugin 'kien/ctrlp.vim.git'
 Plugin 'majutsushi/tagbar.git'
 Plugin 'thaerkh/vim-indentguides'
 Plugin 'itchyny/vim-gitbranch'
@@ -221,10 +220,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 "/..............................................................................
 
-" Change command to invoke CtrlP................................................
-let g:ctrlp_map = '<c-o>'
-let g:ctrlp_cmd = 'CtrlP'
-"/..............................................................................
 
 " Python Specific Stuff.........................................................
 " Highlight 'self'.
@@ -325,6 +320,7 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_global_extensions = ['coc-lists']
 
 " Jump to definition
 nmap <silent> gd <Plug>(coc-definition)
@@ -336,4 +332,9 @@ let g:coc_user_config['solargraph.diagnostics'] = 'true'
 let g:coc_user_config['solargraph.autoformat'] = 'true'
 let g:coc_user_config['solargraph.formatting'] = 'true'
 let g:coc_user_config['solargraph.hover'] = 'true'
+"/..............................................................................
+"
+" Fuzzy find with coc-lists.....................................................
+nnoremap <C-o> :CocList files<CR>
+nnoremap <C-m> :CocList mru<CR>
 "/..............................................................................
