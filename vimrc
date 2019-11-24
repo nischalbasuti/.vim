@@ -326,9 +326,7 @@ let g:coc_global_extensions = ['coc-lists']
 " Jump to definition
 nmap <silent> gd <Plug>(coc-definition)
 
-" Jump to definion with verticle split
 let g:coc_user_config = {}
-let g:coc_user_config['coc.preferences.jumpCommand'] = 'vsp'
 let g:coc_user_config['solargraph.diagnostics'] = 'true'
 let g:coc_user_config['solargraph.autoformat'] = 'true'
 let g:coc_user_config['solargraph.formatting'] = 'true'
