@@ -181,10 +181,10 @@ nnoremap <C-f> <Esc>:call MyNerdToggle()<CR>
 " moving lines
 nnoremap <C-J> :m .+1<CR>==
 nnoremap <C-K> :m .-2<CR>==
-inoremap <C-J> <Esc>:m .+1<CR>==gi
-inoremap <C-K> <Esc>:m .-2<CR>==gi
 vnoremap <C-J> :m '>+1<CR>gv=gv
 vnoremap <C-K> :m '<-2<CR>gv=gv
+inoremap <C-J> <Esc>:m .+1<CR>==gi
+inoremap <C-K> <Esc>:m .-2<CR>==gi
 
 " remap yanking to system clipboard
 vnoremap <C-c> "+y
@@ -203,10 +203,6 @@ noremap <F5> <Esc>:syntax sync fromstart<CR>
 " remap save
 nnoremap <C-u> <Esc>:up<CR> :echo 'saved' <CR>
 inoremap <C-u> <Esc>:up<CR> :echo 'saved' <CR>
-
-" remap save and quit
-nnoremap <C-w> <Esc>:up<CR> <Esc> :q<CR> :echo 'save and quit' <CR>
-inoremap <C-w> <Esc>:up<CR> <Esc> :q<CR> :echo 'save and quit' <CR>
 
 " close scratch
 inoremap <C-c> <Esc>:pclose<CR>a
@@ -324,7 +320,8 @@ let g:coc_global_extensions = ['coc-python']
 let g:coc_global_extensions = ['coc-lists']
 
 " Jump to definition
-nmap <silent> gd <Plug>(coc-definition)
+nmap gd <Plug>(coc-definition)
+" nmap <silent> gd <Plug>(coc-definition)
 
 let g:coc_user_config = {}
 let g:coc_user_config['solargraph.diagnostics'] = 'true'
@@ -337,4 +334,5 @@ let g:coc_user_config['python.jediEnabled'] = 'true'
 " Fuzzy find with coc-lists.....................................................
 nnoremap <C-o> :CocList files<CR>
 nnoremap <C-m> :CocList mru<CR>
+nnoremap <C-w> :CocList grep<CR>
 "/..............................................................................
