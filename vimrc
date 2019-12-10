@@ -14,6 +14,7 @@ Plugin 'majutsushi/tagbar.git'
 Plugin 'thaerkh/vim-indentguides'
 Plugin 'itchyny/vim-gitbranch'
 Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-dispatch'
 
 " themes
 Plugin 'dracula/vim.git'
@@ -183,8 +184,8 @@ nnoremap <C-J> :m .+1<CR>==
 nnoremap <C-K> :m .-2<CR>==
 vnoremap <C-J> :m '>+1<CR>gv=gv
 vnoremap <C-K> :m '<-2<CR>gv=gv
-inoremap <C-J> <Esc>:m .+1<CR>==gi
-inoremap <C-K> <Esc>:m .-2<CR>==gi
+" inoremap <C-J> <Esc>:m .+1<CR>==gi
+" inoremap <C-K> <Esc>:m .-2<CR>==gi
 
 " remap yanking to system clipboard
 vnoremap <C-c> "+y
@@ -336,3 +337,8 @@ nnoremap <C-o> :CocList files<CR>
 nnoremap <C-m> :CocList mru<CR>
 nnoremap <C-w> :CocList grep<CR>
 "/..............................................................................
+
+nnoremap cp :let @+ = expand("%")<CR>
+
+" Make parent directories
+command Mk :!mkdir -p %:h
