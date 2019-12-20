@@ -28,6 +28,7 @@ Plugin 'whatyouhide/vim-gotham.git'
 Plugin 'rakr/vim-one'
 Plugin 'junegunn/seoul256.vim.git'
 Plugin 'arzg/vim-substrata'
+Plugin 'ryanoasis/vim-devicons'
 
 " editing,completion and linting
 Plugin 'jiangmiao/auto-pairs.git'
@@ -81,8 +82,10 @@ set splitright                      " vertical split window to right
 set incsearch                       " highlight next search
 set timeoutlen=1000 ttimeoutlen=0   " remove keyboard delay
 set foldmethod=manual               " **insert redundent comment here**
-set synmaxcol=200                   " prevent vim from dying when line length \
-                                    " is too long
+set synmaxcol=200                   " prevent vim from dying when line length is too long
+set signcolumn=yes                  " Keep the signcolumn at all times
+                                    " (prevents gitgutter from jumping around
+                                    " when there are no diffs)
 
 " Only for neovim
 if has('nvim')
