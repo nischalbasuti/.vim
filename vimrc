@@ -54,7 +54,7 @@ Plugin 'crusoexia/vim-javascript-lib.git'
 
 " git
 Plugin 'tpope/vim-fugitive.git'
-Plugin 'airblade/vim-gitgutter'
+Plugin 'mhinz/vim-signify'
 Plugin 'rhysd/conflict-marker.vim'
 
 " Preferences...................................................................
@@ -86,6 +86,9 @@ set synmaxcol=200                   " prevent vim from dying when line length is
 set signcolumn=yes                  " Keep the signcolumn at all times
                                     " (prevents gitgutter from jumping around
                                     " when there are no diffs)
+
+" default updatetime 4000ms is not good for async update - vim-signify
+set updatetime=100
 
 " Only for neovim
 if has('nvim')
@@ -275,9 +278,6 @@ if has('gui_running')
     set guioptions-=r               "scrollbar
 endif
 "/..............................................................................
-
-" Update GitGutter on save
-autocmd BufWritePost * GitGutter
 
 " Disable characters (json and markdown files)
 let g:indentguides_ignorelist = ['json', 'markdown']
