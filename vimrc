@@ -29,6 +29,9 @@ Plugin 'rakr/vim-one'
 Plugin 'junegunn/seoul256.vim.git'
 Plugin 'arzg/vim-substrata'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'justincampbell/vim-railscasts'
+Plugin 'chriskempson/base16-vim'
+
 
 " editing,completion and linting
 Plugin 'jiangmiao/auto-pairs.git'
@@ -102,13 +105,16 @@ set expandtab                       " on pressing tab, insert 4 spaces
 set softtabstop=4                   " backspace behavior on space indents 
 
 " Enable true color
-" set termguicolors " Enable true color support.
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let base16colorspace=256
+set termguicolors " Enable true color support.
 
 " Set theme.....................................................................
+
 function! Set_colorscheme()
-    colorscheme PaperColor
+    " colorscheme PaperColor
+    colorscheme base16-tomorrow-night
     set background=dark
 endfunction
 
@@ -325,7 +331,6 @@ let g:coc_global_extensions = ['coc-lists']
 
 " Jump to definition
 nmap gd <Plug>(coc-definition)
-" nmap <silent> gd <Plug>(coc-definition)
 
 let g:coc_user_config = {}
 let g:coc_user_config['solargraph.diagnostics'] = 'true'
