@@ -1,64 +1,59 @@
-" Make vundle work
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
+call plug#begin('~/AppData/Local/nvim/plugged')
 " misc
-Plugin 'MarcWeber/vim-addon-mw-utils.git'
-Plugin 'tomtom/tlib_vim.git'
-Plugin 'gmarik/vundle.git'
-Plugin 'itchyny/lightline.vim'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'majutsushi/tagbar.git'
-Plugin 'thaerkh/vim-indentguides'
-Plugin 'itchyny/vim-gitbranch'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-dispatch'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'gmarik/vundle'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'thaerkh/vim-indentguides'
+Plug 'itchyny/vim-gitbranch'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-dispatch'
 
 " themes
-Plugin 'dracula/vim.git'
-Plugin 'morhetz/gruvbox.git'
-Plugin 'twerth/ir_black.git'
-Plugin 'NLKNguyen/papercolor-theme.git'
-Plugin 'gosukiwi/vim-atom-dark.git'
-Plugin 'liuchengxu/space-vim-dark.git'
-Plugin 'joshdick/onedark.vim'
-Plugin 'whatyouhide/vim-gotham.git'
-Plugin 'rakr/vim-one'
-Plugin 'junegunn/seoul256.vim.git'
-Plugin 'arzg/vim-substrata'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'justincampbell/vim-railscasts'
-Plugin 'chriskempson/base16-vim'
+Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'twerth/ir_black'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'gosukiwi/vim-atom-dark'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'joshdick/onedark.vim'
+Plug 'whatyouhide/vim-gotham'
+Plug 'rakr/vim-one'
+Plug 'junegunn/seoul256.vim'
+Plug 'arzg/vim-substrata'
+Plug 'ryanoasis/vim-devicons'
+Plug 'justincampbell/vim-railscasts'
+Plug 'chriskempson/base16-vim'
 
-
-" editing,completion and linting
-Plugin 'jiangmiao/auto-pairs.git'
-Plugin 'docunext/closetag.vim'
-Plugin 'tommcdo/vim-lion.git'
-Plugin 'tpope/vim-commentary'
-Plugin 'machakann/vim-sandwich'
-Plugin 'honza/vim-snippets.git'
-Plugin 'SirVer/ultisnips.git'
-Plugin 'neoclide/coc.nvim'
+" editing, completion and linting
+Plug 'jiangmiao/auto-pairs'
+Plug 'docunext/closetag.vim'
+Plug 'tommcdo/vim-lion'
+Plug 'tpope/vim-commentary'
+Plug 'machakann/vim-sandwich'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'neoclide/coc.nvim'
 
 " language specific
-Plugin 'ap/vim-css-color.git'
-Plugin 'tpope/vim-rails'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'hdima/python-syntax.git'
-Plugin 'mxw/vim-jsx.git'
-Plugin 'noprompt/vim-yardoc'
-Plugin 'leafgarland/typescript-vim.git'
-Plugin 'epilande/vim-react-snippets'
-Plugin 'jelera/vim-javascript-syntax.git'
-Plugin 'crusoexia/vim-javascript-lib.git'
+Plug 'ap/vim-css-color'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'hdima/python-syntax'
+Plug 'mxw/vim-jsx'
+Plug 'noprompt/vim-yardoc'
+Plug 'leafgarland/typescript-vim'
+Plug 'epilande/vim-react-snippets'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'crusoexia/vim-javascript-lib'
 
 " git
-Plugin 'tpope/vim-fugitive.git'
-Plugin 'mhinz/vim-signify'
-Plugin 'rhysd/conflict-marker.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'rhysd/conflict-marker.vim'
+call plug#end()
 
 " Preferences...................................................................
 filetype plugin indent on
